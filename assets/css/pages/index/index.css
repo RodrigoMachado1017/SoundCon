@@ -1,0 +1,17 @@
+@import "./partials/header.css";
+@import "./partials/body.css";
+@import "./partials/footer.css";
+@import "../../global/global.css";
+
+html {
+    margin: 0 0;
+    height: 100%;
+}
+
+.flex{
+    display: flex;
+}
+
+
+
+

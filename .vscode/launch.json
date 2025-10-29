@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Rodri/Desktop/Facul/Programas/Programas/C++/Projeto_De_Extensão/src",
-      "program": "c:/Users/Rodri/Desktop/Facul/Programas/Programas/C++/Projeto_De_Extensão/src/build/Debug/outDebug",
+      "cwd": "c:/Users/Rodri/Desktop/Facul/Programas/Programas/SoundCon/SoundCon-1/assets/css/pages/index/partials",
+      "program": "c:/Users/Rodri/Desktop/Facul/Programas/Programas/SoundCon/SoundCon-1/assets/css/pages/index/partials/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
