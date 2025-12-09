@@ -9,6 +9,10 @@
   --text-subtle: #b39ddb;
 }
 
+body{
+  background-color: #6b567e;
+}
+
 .home-container {
   height: 100vh;
   width: 100vw;
@@ -50,4 +54,16 @@
 
 .home-box button:hover {
   background-color: var(--color2);
+}
+
+.home-box{
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color1);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s;
 }

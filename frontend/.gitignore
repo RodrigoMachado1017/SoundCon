@@ -7,10 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+node_modules/
+uploads/
+output/
+*.sqlite
+*.mp4
+*.mp3
+*.wav
+*.exe
+*.zip
 
 # Editor directories and files
 .vscode/*
