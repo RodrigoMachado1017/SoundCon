@@ -1,0 +1,110 @@
+:root {
+  --color1: #74469c;   /* roxo claro */
+  --color2: #5c3580;   /* roxo médio */
+  --color3: #442365;   
+  --color4: #2b124a;   /* roxo escuro do cartão */
+  --color5: #19003e;   /* fundo mais escuro */
+  --color6: #0b001c;   /* fundo mais escuro */
+
+  --text-light: #e0e0e0;
+  --text-subtle: #b39ddb;
+}
+
+/* Fundo geral */
+body {
+  background: var(--color5);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Wrapper da página */
+.sc-login-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Card */
+.sc-login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color4);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  align-items: center;
+}
+
+/* Título */
+.sc-login-card h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 2rem;
+  color: var(--text-light);
+}
+
+/* Subtítulo */
+.sc-sub {
+  color: var(--text-subtle);
+  margin-bottom: 1.25rem;
+}
+
+/* Inputs */
+.sc-login-form input {
+  display: flex;
+  flex-direction: column;
+  width: 92.5%;
+  padding: 0.9rem;
+  margin-bottom: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+}
+
+.sc-login-form input::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Botão principal */
+.sc-btn {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color1);
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.sc-btn:hover {
+  background: var(--color2);
+}
+
+/* Botão secundário */
+.sc-ghost {
+  margin-top: 1rem;
+  background: transparent;
+  color: var(--text-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
+}
+
+.sc-ghost:hover {
+  color: var(--text-light);
+  border-color: var(--color1);
+}
+
+/* Nota */
+.sc-note {
+  color: var(--text-subtle);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,153 @@
+:root {
+  --color1: #74469c;   /* roxo claro */
+  --color2: #5c3580;   /* roxo médio */
+  --color3: #442365;   
+  --color4: #2b124a;   /* roxo escuro do cartão */
+  --color5: #19003e;   /* fundo mais escuro */
+  --color6: #0b001c;   /* fundo mais escuro */
+
+  --text-light: #e0e0e0;
+  --text-subtle: #b39ddb;
+}
+
+/* Fundo da página */
+body {
+  background: var(--color5);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Área geral */
+.sc-convert-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Card principal */
+.sc-convert-card {
+  width: 100%;
+  max-width: 820px;
+  background: var(--color3);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  color: var(--text-light);
+}
+
+/* Título */
+.sc-convert-card h2 {
+  margin: 0 0 6px 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.sc-sub {
+  color: var(--text-subtle);
+  margin-bottom: 1rem;
+}
+
+/* Formulário */
+.sc-convert-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Área de upload */
+.sc-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  padding: 1.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+
+  color: var(--text-subtle);
+  font-weight: 600;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.sc-drop:hover {
+  border-color: var(--color1);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.sc-drop input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Opções (select + botão) */
+.sc-options {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.sc-options select {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-light);
+}
+
+/* Botão converter */
+.sc-btn {
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--color1);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.sc-btn:hover {
+  background: var(--color2);
+}
+
+.sc-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensagens */
+.sc-message {
+  margin-top: 1rem;
+  color: var(--text-subtle);
+}
+
+.sc-download {
+  margin-top: 1rem;
+}
+
+.sc-download a {
+  color: var(--color1);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sc-download a:hover {
+  color: var(--color2);
+}
+
+/* Nota inferior */
+.sc-note {
+  margin-top: 1.5rem;
+  color: var(--text-subtle);
+  font-size: 0.9rem;
+  text-align: center;
+}
