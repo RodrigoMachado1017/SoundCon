@@ -55,45 +55,56 @@ export default function Convert() {
   }
 
   return (
-    <div className="sc-convert-wrapper">
-      <div className="sc-convert-card">
-        <h2>Conversor de Áudio Universal</h2>
-        <p className="sc-sub">Converta qualquer formato usando FFmpeg.</p>
+    <div className="home-container">
+      <div className="glass-card text-center" style={{ width: '500px' }}>
+        <h2 className="hero-title highlight" style={{ fontSize: '2.5rem' }}>Conversor Universal</h2>
+        <p className="hero-subtitle" style={{ marginBottom: '2rem' }}>Converta qualquer formato de áudio facilmente</p>
 
-        <form onSubmit={handleSubmit} className="sc-convert-form">
-          <label className="sc-drop">
-            {file ? file.name : "Arraste ou selecione seu arquivo"}
+        <form onSubmit={handleSubmit} className="form-container">
+          <label className="input-primary" style={{ cursor: 'pointer', borderStyle: 'dashed', padding: '2rem 1rem' }}>
+            {file ? file.name : "Arraste ou clique para selecionar seu arquivo"}
             <input
               type="file"
               accept="audio/*"
+              style={{ display: 'none' }}
               onChange={(e) => setFile(e.target.files[0])}
             />
           </label>
 
-          <div className="sc-options">
-            <label>
-              Formato de saída:
-              <select
-                value={outputFormat}
-                onChange={(e) => setOutputFormat(e.target.value)}
-              >
-                <option value="mp3">MP3</option>
-                <option value="wav">WAV</option>
-                <option value="ogg">OGG</option>
-                <option value="aac">AAC</option>
-                <option value="flac">FLAC</option>
-                <option value="m4a">M4A</option>
-                <option value="opus">OPUS</option>
-              </select>
-            </label>
-
-            <button className="sc-btn" type="submit" disabled={loading}>
-              {loading ? "Convertendo..." : "Converter"}
-            </button>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
+            <label style={{ color: 'var(--text-secondary)' }}>Formato de saída:</label>
+            <select
+              className="input-primary"
+              style={{ width: 'auto', marginBottom: 0, padding: '0.8rem' }}
+              value={outputFormat}
+              onChange={(e) => setOutputFormat(e.target.value)}
+            >
+              <option value="mp3">MP3</option>
+              <option value="wav">WAV</option>
+              <option value="ogg">OGG</option>
+              <option value="aac">AAC</option>
+              <option value="flac">FLAC</option>
+              <option value="m4a">M4A</option>
+              <option value="opus">OPUS</option>
+            </select>
           </div>
+
+          <button className="btn-primary" type="submit" disabled={loading} style={{ marginTop: '2rem' }}>
+            {loading ? "Processando..." : "Converter Agora"}
+          </button>
         </form>
 
-        {message && <div className="sc-message">{message}</div>}
+        {message && (
+          <div style={{ 
+            marginTop: '1.5rem', 
+            padding: '1rem', 
+            borderRadius: '8px', 
+            background: message.includes('Erro') ? 'rgba(255, 0, 0, 0.2)' : 'rgba(0, 255, 0, 0.2)',
+            color: 'white'
+          }}>
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );

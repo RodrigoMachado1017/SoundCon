@@ -4,8 +4,12 @@ const cors = require("cors");
 const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
+
+if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
+if (!fs.existsSync("output")) fs.mkdirSync("output");
 const bcrypt = require("bcrypt");
 const db = require("./db/db");
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 
 const app = express();
 app.use(cors());
@@ -88,8 +92,9 @@ app.post("/audio/convert", upload.single("file"), (req, res) => {
   const outputFile = `${Date.now()}.${outputFormat}`;
   const outputPath = path.join("output", outputFile);
 
-  // === COMANDO FFMPEG REAL ===
-  const cmd = `ffmpeg -i "${inputPath}" "${outputPath}" -y`;
+  // === COMANDO FFMPEG REAL COM PATH DINAMICO ===
+  const ffmpegPath = ffmpegInstaller.path;
+  const cmd = `"${ffmpegPath}" -i "${inputPath}" "${outputPath}" -y`;
 
   exec(cmd, (err) => {
     // apaga o arquivo original
@@ -100,8 +105,7 @@ app.post("/audio/convert", upload.single("file"), (req, res) => {
       return res.status(500).json({ error: "Erro ao converter arquivo" });
     }
 
-    res.download(outputPath, originalName + "." + outputFormat, () => {
-    });
+    res.json({ url: `/output/${outputFile}` });
   });
 });
 
