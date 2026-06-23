@@ -1,0 +1,12 @@
+# Ignora tudo por padrão
+/*
+
+# Mantém apenas os itens essenciais do projeto
+!/backend/
+!/frontend/
+!/README.md
+!/dev.js
+!/package.json
+
+# Não ignora o próprio .gitignore
+!/.gitignore
