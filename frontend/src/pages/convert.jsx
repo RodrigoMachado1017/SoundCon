@@ -1,111 +1,184 @@
-import { useState } from "react";
-import "./convert.css";
+﻿import { useMemo, useState } from "react";
+import AppLayout from "../components/AppLayout";
+import { convertAudio, fileUrl } from "../services/api";
+import { SAMPLE_RATES, BITRATES, BIT_DEPTHS, isLossy, hasBitDepth } from "../services/audioQuality";
+
+const formatOptions = ["mp3", "wav", "ogg", "aac", "flac", "m4a", "opus"];
 
 export default function Convert() {
   const [file, setFile] = useState(null);
   const [outputFormat, setOutputFormat] = useState("mp3");
+  const [sampleRate, setSampleRate] = useState(44100);
+  const [bitrate, setBitrate] = useState(192);
+  const [bitDepth, setBitDepth] = useState(16);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("neutral");
+  const [convertedUrl, setConvertedUrl] = useState(null);
+  const [convertedFileName, setConvertedFileName] = useState("");
+
+  const cards = useMemo(
+    () => [
+      { title: "Arquivo selecionado", value: file ? "1" : "0", sub: file ? file.name : "nenhum" },
+      { title: "Formato de saída", value: outputFormat.toUpperCase(), sub: "conversão" },
+      { title: "Status", value: loading ? "Processando" : "Pronto", sub: "pipeline" },
+    ],
+    [file, outputFormat, loading]
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (!file) {
-      setMessage("Selecione um arquivo primeiro.");
+      setMessage("Selecione um arquivo de áudio antes de converter.");
+      setMessageType("error");
       return;
     }
 
     setLoading(true);
     setMessage("");
-
-    const form = new FormData();
-    form.append("file", file);
-    form.append("format", outputFormat);
+    setConvertedUrl(null);
 
     try {
-      const resp = await fetch("http://localhost:3001/audio/convert", {
-        method: "POST",
-        body: form,
+      const { ok, data } = await convertAudio({
+        file,
+        format: outputFormat,
+        pitchCents: 0,
+        sampleRate,
+        bitrate: isLossy(outputFormat) ? bitrate : undefined,
+        bitDepth: hasBitDepth(outputFormat) ? bitDepth : undefined,
       });
 
-      const data = await resp.json();
-
-      if (!resp.ok) {
-        setMessage(data.error || "Erro ao converter.");
+      if (!ok) {
+        setMessage(data.error || "Erro ao converter arquivo.");
+        setMessageType("error");
         setLoading(false);
         return;
       }
 
-      const downloadUrl = `http://localhost:3001${data.url}`;
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = data.url.split("/").pop();
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      setMessage("Arquivo convertido e baixado com sucesso!");
-
-    } catch (err) {
-      setMessage("Erro ao enviar o arquivo.");
-      console.error(err);
+      setConvertedUrl(fileUrl(data.url));
+      setConvertedFileName(data.url.split("/").pop());
+      setMessage("Arquivo convertido com sucesso.");
+      setMessageType("success");
+    } catch {
+      setMessage("Erro de conexão com o servidor.");
+      setMessageType("error");
     }
 
     setLoading(false);
   }
 
   return (
-    <div className="home-container">
-      <div className="glass-card text-center" style={{ width: '500px' }}>
-        <h2 className="hero-title highlight" style={{ fontSize: '2.5rem' }}>Conversor Universal</h2>
-        <p className="hero-subtitle" style={{ marginBottom: '2rem' }}>Converta qualquer formato de áudio facilmente</p>
+    <AppLayout
+      title="Conversão"
+      subtitle="Converta entre formatos mantendo o áudio original"
+    >
+      <section className="sc-kpi-grid sc-kpi-grid-3">
+        {cards.map((card) => (
+          <article className="sc-kpi-card" key={card.title}>
+            <p>{card.title}</p>
+            <strong>{card.value}</strong>
+            <span>{card.sub}</span>
+          </article>
+        ))}
+      </section>
 
-        <form onSubmit={handleSubmit} className="form-container">
-          <label className="input-primary" style={{ cursor: 'pointer', borderStyle: 'dashed', padding: '2rem 1rem' }}>
-            {file ? file.name : "Arraste ou clique para selecionar seu arquivo"}
-            <input
-              type="file"
-              accept="audio/*"
-              style={{ display: 'none' }}
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </label>
-
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center' }}>
-            <label style={{ color: 'var(--text-secondary)' }}>Formato de saída:</label>
-            <select
-              className="input-primary"
-              style={{ width: 'auto', marginBottom: 0, padding: '0.8rem' }}
-              value={outputFormat}
-              onChange={(e) => setOutputFormat(e.target.value)}
-            >
-              <option value="mp3">MP3</option>
-              <option value="wav">WAV</option>
-              <option value="ogg">OGG</option>
-              <option value="aac">AAC</option>
-              <option value="flac">FLAC</option>
-              <option value="m4a">M4A</option>
-              <option value="opus">OPUS</option>
-            </select>
+      <section className="sc-panels-grid sc-panels-grid-eq">
+        <article className="sc-panel">
+          <div className="sc-panel-head">
+            <h2>Converter arquivo</h2>
+            <span>Formato de saída</span>
           </div>
 
-          <button className="btn-primary" type="submit" disabled={loading} style={{ marginTop: '2rem' }}>
-            {loading ? "Processando..." : "Converter Agora"}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="sc-convert-form-new">
+            <label className="sc-upload-zone">
+              <input
+                type="file"
+                accept="audio/*"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
+              <div>
+                <strong>{file ? file.name : "Arraste ou selecione seu arquivo"}</strong>
+                <p>Suporte para arquivos de áudio aceitos pelo navegador</p>
+              </div>
+            </label>
 
-        {message && (
-          <div style={{ 
-            marginTop: '1.5rem', 
-            padding: '1rem', 
-            borderRadius: '8px', 
-            background: message.includes('Erro') ? 'rgba(255, 0, 0, 0.2)' : 'rgba(0, 255, 0, 0.2)',
-            color: 'white'
-          }}>
-            {message}
+            <div className="sc-row-2">
+              <div>
+                <label className="sc-field-label">Formato de saída</label>
+                <select value={outputFormat} onChange={(e) => setOutputFormat(e.target.value)} className="sc-input">
+                  {formatOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="sc-field-label">Sample rate</label>
+                <select className="sc-input" value={sampleRate} onChange={(e) => setSampleRate(Number(e.target.value))}>
+                  {SAMPLE_RATES.map((sr) => (
+                    <option key={sr} value={sr}>
+                      {sr} Hz
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {isLossy(outputFormat) && (
+              <div>
+                <label className="sc-field-label">Bitrate</label>
+                <select className="sc-input" value={bitrate} onChange={(e) => setBitrate(Number(e.target.value))}>
+                  {BITRATES.map((b) => (
+                    <option key={b} value={b}>
+                      {b} kbps
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {hasBitDepth(outputFormat) && (
+              <div>
+                <label className="sc-field-label">Profundidade (bit depth)</label>
+                <select className="sc-input" value={bitDepth} onChange={(e) => setBitDepth(Number(e.target.value))}>
+                  {BIT_DEPTHS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}-bit
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <button className="sc-btn-primary" type="submit" disabled={loading}>
+              {loading ? "Processando..." : "Converter agora"}
+            </button>
+          </form>
+
+          {message && <p className={`sc-feedback sc-feedback-${messageType}`}>{message}</p>}
+        </article>
+
+        <article className="sc-panel">
+          <div className="sc-panel-head">
+            <h2>Resultado</h2>
+            <span>Preview e download</span>
           </div>
-        )}
-      </div>
-    </div>
+
+          {convertedUrl ? (
+            <div className="sc-result-box">
+              <audio controls src={convertedUrl} />
+              <a href={convertedUrl} download={convertedFileName} className="sc-btn-primary sc-inline-btn">
+                Baixar arquivo
+              </a>
+            </div>
+          ) : (
+            <p className="sc-placeholder">Converta um arquivo para liberar o preview de áudio.</p>
+          )}
+        </article>
+      </section>
+    </AppLayout>
   );
 }

@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Relatório Final — Projeto de Extensão II — SoundCon</title>
+    <style>
+      /* ===== Normas IFPR ===== */
+      @page {
+        size: A4;
+        /* topo dir inf esq */
+        margin: 3cm 2cm 2cm 3cm;
+      }
+
+      :root {
+        --txt: #000;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #e9e9ee;
+        color: var(--txt);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+        line-height: 1.5;
+      }
+
+      /* Folha A4 visível na tela; na impressão, ocupa a página inteira. */
+      .sheet {
+        width: 21cm;
+        min-height: 29.7cm;
+        margin: 12px auto;
+        padding: 3cm 2cm 2cm 3cm;
+        background: #fff;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+        text-align: justify;
+      }
+
+      h1, h2, h3 { line-height: 1.4; }
+      h1 { font-size: 14pt; }
+      h2 { font-size: 12pt; text-transform: uppercase; }
+      h3 { font-size: 12pt; }
+      h2, h3 { margin: 1.2em 0 0.4em; }
+
+      p {
+        margin: 0 0 0.35em;
+        text-indent: 1.5cm;
+      }
+
+      /* parágrafos sem recuo (listas de descrição, citação) */
+      .noindent p, p.noindent { text-indent: 0; }
+
+      ul, ol { margin: 0.2em 0 0.6em 0; }
+      li { margin-bottom: 0.15em; text-align: justify; }
+
+      .center { text-align: center; text-indent: 0; }
+      .bold { font-weight: bold; }
+
+      /* ===== Capa / folha de rosto ===== */
+      .cover {
+        min-height: 23.7cm; /* área útil A4 ~ 29.7 - (3+2) */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        text-indent: 0;
+      }
+      .cover .top, .cover .mid, .cover .bottom { text-indent: 0; }
+      .cover p { text-indent: 0; margin: 0.25em 0; }
+      .cover .titulo { font-size: 14pt; font-weight: bold; margin-top: 0.4em; }
+      .cover .subtitulo { font-size: 12pt; }
+      .instituicao { font-weight: bold; }
+
+      /* folha de rosto: texto de apresentação recuado à direita */
+      .apresentacao {
+        margin-left: 8cm;
+        text-align: justify;
+        text-indent: 0;
+        font-size: 12pt;
+      }
+
+      /* ===== Sumário ===== */
+      .sumario-titulo { text-align: center; font-weight: bold; text-transform: uppercase; }
+      .sumario { text-indent: 0; }
+      .sumario .item { display: flex; justify-content: space-between; border-bottom: 1px dotted #bbb; padding: 2px 0; }
+      .sumario .sub { padding-left: 1.2cm; }
+
+      .quebra { page-break-after: always; }
+
+      @media print {
+        html, body { background: #fff; }
+        .sheet { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
+        .no-print { display: none !important; }
+        .cover { min-height: 23.2cm; }
+      }
+
+      .aviso {
+        max-width: 21cm;
+        margin: 12px auto 0;
+        padding: 10px 14px;
+        background: #fff7d6;
+        border: 1px solid #e2c200;
+        border-radius: 8px;
+        font-size: 10pt;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="aviso no-print">
+      <strong>Como gerar o PDF:</strong> pressione <strong>Ctrl + P</strong> (ou Cmd + P), escolha
+      <em>Salvar como PDF</em>, papel <em>A4</em>, margens <em>Padrão/Nenhuma</em> (as margens já estão no documento) e
+      ative <em>Cabeçalhos e rodapés</em> se quiser a numeração de página. Esta faixa amarela não aparece na impressão.
+    </div>
+
+    <!-- ===================== CAPA ===================== -->
+    <section class="sheet quebra">
+      <div class="cover">
+        <div class="top">
+          <p class="instituicao">INSTITUTO FEDERAL DO PARANÁ</p>
+          <p>Campus Pinhais</p>
+          <p>Ministério da Educação</p>
+        </div>
+        <div class="mid">
+          <p class="bold">CURSO BACHARELADO EM CIÊNCIA DA COMPUTAÇÃO</p>
+          <p>Projeto de Extensão II</p>
+          <p style="margin-top:1.5cm">Rodrigo Machado</p>
+          <p class="titulo" style="margin-top:2cm">RELATÓRIO DE ATIVIDADES</p>
+          <p class="subtitulo">Evolução do SoundCon: autenticação em nuvem, estação de áudio multitrack na web e arquitetura MVC</p>
+        </div>
+        <div class="bottom">
+          <p>PINHAIS</p>
+          <p>2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOLHA DE ROSTO ================= -->
+    <section class="sheet quebra">
+      <div class="cover">
+        <div class="top">
+          <p>Rodrigo Machado</p>
+        </div>
+        <div class="mid">
+          <p class="titulo">RELATÓRIO DE ATIVIDADES</p>
+          <p class="subtitulo">Evolução do SoundCon: autenticação em nuvem, estação de áudio multitrack na web e arquitetura MVC</p>
+          <p class="apresentacao" style="margin-top:2.5cm">
+            Relatório de atividades extensionistas, apresentado à disciplina de Projeto de Extensão II, do
+            curso de Bacharelado em Ciência da Computação do Instituto Federal do Paraná — Campus Pinhais,
+            sob a orientação dos professores Guilherme Werneck e João Orlando.
+          </p>
+        </div>
+        <div class="bottom">
+          <p>PINHAIS</p>
+          <p>2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SUMÁRIO ===================== -->
+    <section class="sheet quebra">
+      <p class="sumario-titulo">SUMÁRIO</p>
+      <div class="sumario" style="margin-top:1cm">
+        <div class="item"><span>1 INTRODUÇÃO</span><span>4</span></div>
+        <div class="item sub"><span>1.1 Objetivo</span><span>4</span></div>
+        <div class="item"><span>2 CONTEXTUALIZAÇÃO</span><span>5</span></div>
+        <div class="item"><span>3 DESCRIÇÕES DAS ATIVIDADES REALIZADAS</span><span>6</span></div>
+        <div class="item sub"><span>3.1 Materiais</span><span>6</span></div>
+        <div class="item sub"><span>3.2 Método</span><span>6</span></div>
+        <div class="item"><span>4 RESULTADOS E DISCUSSÕES</span><span>8</span></div>
+        <div class="item"><span>5 CONSIDERAÇÕES FINAIS</span><span>9</span></div>
+        <div class="item"><span>6 REFERÊNCIAS</span><span>10</span></div>
+      </div>
+    </section>
+
+    <!-- ===================== CORPO ===================== -->
+    <section class="sheet">
+      <h2>1 INTRODUÇÃO</h2>
+      <p>
+        O <span class="bold">SoundCon</span> é uma aplicação web de processamento de áudio que, em sua origem,
+        oferecia conversão entre formatos e ajuste de tonalidade (pitch shift) por meio de um backend em
+        Node.js/Express com FFmpeg e um frontend em React. Este relatório apresenta o conjunto de atividades
+        realizadas na etapa final do projeto, no âmbito da disciplina de Projeto de Extensão II, em que a
+        aplicação evoluiu de uma ferramenta de conversão pontual para uma <span class="bold">plataforma de
+        áudio mais completa, segura e escalável</span>.
+      </p>
+      <p>
+        O trabalho concentrou-se em cinco frentes complementares: (i) a reestruturação do backend para a
+        arquitetura <span class="bold">MVC</span>, visando manutenção e escalabilidade futuras; (ii) a
+        substituição da autenticação frágil por <span class="bold">autenticação gerenciada na nuvem (Supabase
+        Auth)</span> com banco de dados <span class="bold">PostgreSQL</span> no lugar do SQLite; (iii) a
+        construção de uma <span class="bold">estação de áudio multitrack na web (DAW)</span> ao estilo de
+        softwares profissionais, com preview de efeitos em tempo real e renderização final pelo FFmpeg; (iv) o
+        aprimoramento da <span class="bold">qualidade de conversão</span> com controles por codec; e (v) uma
+        <span class="bold">avaliação de UX/UI</span> com correções priorizadas de usabilidade e acessibilidade.
+      </p>
+      <p>
+        A justificativa do trabalho está no caráter extensionista e formativo do projeto: entregar um serviço
+        web útil e acessível, que funcione mesmo em computadores modestos, ao mesmo tempo em que se aplicam, na
+        prática, conceitos de engenharia de software, processamento digital de sinais, segurança de aplicações e
+        otimização baseada em estruturas de dados.
+      </p>
+
+      <h3>1.1 Objetivo</h3>
+      <p class="noindent">Evoluir o SoundCon para uma plataforma de áudio web robusta e escalável, contemplando:</p>
+      <ul>
+        <li>reorganização do backend em arquitetura MVC, sem quebra de compatibilidade da API;</li>
+        <li>autenticação real com sessão (JWT) gerenciada pelo Supabase e migração do banco para PostgreSQL com regras de acesso (RLS);</li>
+        <li>uma estação de mixagem multitrack no navegador, otimizada para hardware modesto, com cadeia de efeitos de áudio;</li>
+        <li>conversão de áudio de maior qualidade, com parâmetros configuráveis por formato;</li>
+        <li>avaliação de experiência do usuário (UX/UI) e implementação das correções de maior impacto;</li>
+        <li>manutenção da estabilidade por meio de testes automatizados e validações de build.</li>
+      </ul>
+
+      <h2>2 CONTEXTUALIZAÇÃO</h2>
+      <p class="noindent">A evolução proposta apoia-se em quatro áreas de conhecimento, descritas a seguir.</p>
+      <p>
+        <span class="bold">Autenticação e segurança de aplicações web.</span> Sistemas modernos separam a
+        identidade do usuário da lógica de negócio por meio de provedores de autenticação que emitem tokens
+        <span class="bold">JWT (JSON Web Token)</span>. A plataforma <span class="bold">Supabase</span> oferece
+        autenticação gerenciada sobre um banco <span class="bold">PostgreSQL</span>, com <span class="bold">RLS
+        (Row Level Security)</span> — política que restringe o acesso às linhas de uma tabela ao próprio dono do
+        dado. Esse modelo dispensa o armazenamento manual de senhas (com bcrypt) e reduz a superfície de erro,
+        mantendo segredos sensíveis (a <em>service-role key</em>) apenas no servidor, enquanto o cliente utiliza
+        somente a chave pública (<em>anon key</em>).
+      </p>
+      <p>
+        <span class="bold">Processamento digital de áudio.</span> Aplicar equalização e efeitos de dinâmica a um
+        sinal pode ser feito de duas maneiras complementares: em <span class="bold">tempo real no navegador</span>,
+        com a <span class="bold">Web Audio API</span> (nós como <em>BiquadFilterNode</em>,
+        <em>DynamicsCompressorNode</em>, <em>GainNode</em>, <em>StereoPannerNode</em> e <em>AnalyserNode</em>),
+        permitindo ao usuário ouvir e visualizar as mudanças instantaneamente; e em <span class="bold">renderização
+        final</span> com o <span class="bold">FFmpeg</span>, que aplica os filtros (<em>equalizer</em>,
+        <em>superequalizer</em>, <em>highpass</em>, <em>lowpass</em>, <em>acompressor</em>, <em>loudnorm</em>, entre
+        outros) com fidelidade ao arquivo exportado. Alguns efeitos têm equivalente exato em ambos os mundos;
+        outros, sem contraparte nativa no navegador, são aplicados apenas no render.
+      </p>
+      <p>
+        <span class="bold">Arquitetura de software.</span> O padrão <span class="bold">MVC (Model–View–Controller)</span>
+        e a separação em camadas (rotas, controladores, serviços, modelos, middlewares, utilitários) favorecem a
+        manutenção e a escalabilidade, isolando responsabilidades: controladores finos cuidam da entrada/saída
+        HTTP, enquanto a regra de negócio concentra-se nos serviços e o acesso a dados nos modelos.
+      </p>
+      <p>
+        <span class="bold">Otimização e estruturas de dados.</span> Para que uma estação de áudio funcione de forma
+        fluida em máquinas comuns, é necessário evitar travamentos e coletas de lixo (GC) no caminho crítico do
+        áudio. Empregam-se estruturas e técnicas como <span class="bold">buffer circular (ring buffer)</span> sobre
+        <em>typed arrays</em> para o histórico dos medidores, <span class="bold">pilha</span> para desfazer/refazer,
+        <span class="bold">Web Workers</span> para cálculo fora da thread principal, <span class="bold">transferable
+        ArrayBuffers</span> (cópia zero) e renderização em <span class="bold">canvas</span> desacoplada da taxa de
+        áudio por um único laço de animação com limitação adaptativa de quadros.
+      </p>
+
+      <h2>3 DESCRIÇÕES DAS ATIVIDADES REALIZADAS</h2>
+
+      <h3>3.1 Materiais</h3>
+      <p>
+        <span class="bold">Backend:</span> Node.js, Express 5, Multer (upload), FFmpeg embutido via
+        <em>@ffmpeg-installer/ffmpeg</em>, <em>@supabase/supabase-js</em> (Auth + PostgreSQL), <em>dotenv</em>
+        (variáveis de ambiente) e o executor de testes nativo <em>node --test</em>.
+      </p>
+      <p>
+        <span class="bold">Frontend:</span> React 19, Vite (distribuição <em>rolldown-vite</em>), React Router 7,
+        <em>@supabase/supabase-js</em>, <span class="bold">Web Audio API</span>, <span class="bold">Web Workers</span>,
+        elemento <span class="bold">Canvas</span> e ESLint para análise estática.
+      </p>
+      <p>
+        <span class="bold">Banco de dados:</span> PostgreSQL gerenciado pelo Supabase, com RLS e <em>trigger</em> de
+        criação automática de perfil no cadastro.
+      </p>
+      <p>
+        <span class="bold">Documentação de referência:</span> documentação oficial do FFmpeg (filtros e
+        <em>resampler</em>), documentação do Supabase, <em>MDN Web Docs</em> (Web Audio API) e as normas de
+        apresentação de trabalhos acadêmicos do IFPR.
+      </p>
+      <p>
+        <span class="bold">Ferramenta de apoio:</span> script <em>dev.js</em> (Node puro, sem dependências) que sobe
+        o backend e o frontend simultaneamente com saída identificada por serviço.
+      </p>
+
+      <h3>3.2 Método</h3>
+      <p>
+        As atividades foram conduzidas em ciclos de análise, implementação e validação, organizados em uma
+        fundação técnica seguida de quatro fases priorizadas. Cada etapa foi verificada por testes e/ou
+        <em>build</em> antes de avançar.
+      </p>
+      <p>
+        <span class="bold">Fundação — Reestruturação do backend para MVC.</span> O <em>server.js</em>, que misturava
+        rotas, regras de negócio e acesso a dados, foi reduzido a um <em>bootstrap</em>. Toda a aplicação passou
+        para <em>backend/src/</em>, organizada em <em>config/</em> (ambiente, caminhos, FFmpeg, cliente Supabase),
+        <em>routes/</em>, <em>controllers/</em> (finos), <em>services/</em> (regra de negócio — processamento de
+        áudio, mixagem, logs), <em>models/</em> (acesso a dados), <em>middlewares/</em> (autenticação JWT, upload,
+        tratamento central de erros) e <em>utils/</em> (execução do FFmpeg com <em>timeout</em>, remoção segura de
+        arquivos). Os utilitários existentes foram <span class="bold">movidos e reaproveitados</span>, não
+        reescritos, e a migração ocorreu <span class="bold">sem alterar os contratos da API</span>, mantendo os
+        testes legados aprovados. No frontend, criou-se um <span class="bold">cliente de API centralizado</span>
+        (<em>services/api.js</em>) com a base configurável por variável de ambiente, eliminando URLs fixas
+        espalhadas pelas telas.
+      </p>
+      <p>
+        <span class="bold">Fase 1 — Autenticação com Supabase e migração para PostgreSQL.</span> No frontend, foram
+        criados o provedor de autenticação e o <em>hook</em> <em>useAuth</em> (baseado em
+        <em>onAuthStateChange</em>), além de um componente <em>ProtectedRoute</em> que protege as rotas privadas. As
+        telas de login e cadastro passaram a usar <em>signInWithPassword</em>/<em>signUp</em>, e o logout passou a
+        encerrar a sessão de fato. No backend, um <em>middleware</em> valida o JWT do Supabase nas rotas de áudio;
+        os modelos de <em>logs</em> e <em>profiles</em> passaram a operar sobre o PostgreSQL; e foram criados o
+        <em>script</em> SQL com as tabelas, as políticas de <span class="bold">RLS</span> e o <em>trigger</em> de
+        criação de perfil. A autenticação legada (bcrypt + SQLite) e suas dependências foram removidas.
+      </p>
+      <p>
+        <span class="bold">Fase 2 — Estação de áudio multitrack (DAW) na web.</span> Construiu-se uma página de
+        mixagem (<em>/daw</em>) inspirada em softwares profissionais, com um <span class="bold">motor de áudio
+        imperativo</span> (fora do ciclo de renderização do React) que gerencia o <em>AudioContext</em>, o
+        barramento master e as faixas. Cada faixa possui sua própria cadeia de efeitos, ganho, <em>pan</em> e
+        medidor. Os elementos de interface incluem: <span class="bold">forma de onda</span> com cursor de
+        reprodução (picos calculados em <span class="bold">Web Worker</span> e desenhados em canvas em camadas),
+        <span class="bold">medidores VU/pico</span> de entrada e saída, <span class="bold">analisador de espectro
+        (FFT)</span>, <span class="bold">potenciômetros (knobs)</span> e <span class="bold">faders</span>. Foi
+        definido um <span class="bold">catálogo de efeitos</span> servido pelo backend, com detecção automática dos
+        filtros realmente disponíveis no <em>build</em> do FFmpeg; cada efeito é classificado conforme seu preview
+        (exato em tempo real, aproximado ou apenas em renderização). O backend ganhou o <em>endpoint</em>
+        <em>POST /audio/mix</em>, que serializa o projeto em JSON e monta um grafo <em>-filter_complex</em> — uma
+        cadeia por faixa, somadas via <em>amix</em>, com limitador no master. Foram aplicadas as otimizações
+        descritas na contextualização (ring buffer, laço único de animação com limitação adaptativa,
+        <em>transferables</em>, ausência de atualização de estado do React durante a reprodução, desfazer/refazer em
+        pilha e liberação de memória ao remover faixas).
+      </p>
+      <p>
+        <span class="bold">Fase 3 — Conversão de áudio de maior qualidade.</span> O <em>endpoint</em> de conversão
+        passou a aceitar e validar, por codec, opções de <span class="bold">bitrate</span> (formatos com perdas),
+        <span class="bold">sample rate</span> (44,1/48/96 kHz) e <span class="bold">profundidade de bits</span>
+        (16/24/32, para WAV/FLAC), preservando o <em>resampler</em> de alta qualidade já existente. Esses controles
+        foram expostos na interface das telas de Conversão e Pitch, exibindo somente as opções pertinentes ao
+        formato escolhido.
+      </p>
+      <p>
+        <span class="bold">Fase 4 — Avaliação de UX/UI e correções.</span> Foi produzido um documento de auditoria
+        (heurísticas de usabilidade, acessibilidade e gargalos de desempenho atuais e futuros) e implementadas as
+        correções de maior impacto e menor custo: nomes acessíveis em botões somente com ícone, associação de
+        rótulos aos campos dos formulários de autenticação, foco visível consistente, respeito à preferência de
+        <span class="bold">redução de movimento</span>, atalho de teclado (barra de espaço para tocar/pausar) e
+        <span class="bold">limite de tamanho de upload</span> no servidor.
+      </p>
+      <p>
+        <span class="bold">Atividades de acabamento.</span> Foram ainda implementados: o <em>script</em>
+        <em>dev.js</em> para execução conjunta dos servidores; a correção e padronização do <span class="bold">favicon</span>
+        e da identidade visual (logo ao lado do nome no cabeçalho); e o redesenho dos controles — <em>knobs</em> com
+        aparência de dial metálico e <em>faders</em> de equalização no estilo de mesas de mixagem — mantendo a paleta
+        do projeto.
+      </p>
+
+      <h2>4 RESULTADOS E DISCUSSÕES</h2>
+      <p class="noindent">Os resultados foram verificados por critérios objetivos de testes e <em>build</em>.</p>
+      <p>
+        <span class="bold">Backend — testes automatizados.</span> A suíte do backend executa <span class="bold">19
+        testes aprovados</span> (<em>node --test</em>), cobrindo unidade e integração. Destacam-se: a validação de
+        <em>pitch</em>, formato e qualidade; a geração correta das <em>strings</em> de filtro e do grafo
+        <em>-filter_complex</em> para 1, 2 e N faixas; a rejeição de projetos inválidos; e dois testes de integração
+        que <span class="bold">executam o FFmpeg de verdade</span> — um renderiza uma mixagem de duas faixas com
+        efeitos e outro confirma, por leitura dos metadados do arquivo, uma conversão em <span class="bold">48 kHz e
+        WAV 24-bit</span>.
+      </p>
+      <p>
+        <span class="bold">Frontend — build e análise estática.</span> O <em>build</em> de produção do frontend
+        conclui sem erros e a análise do ESLint permanece <span class="bold">limpa</span>, inclusive após a
+        introdução da DAW, do motor de áudio, dos <em>workers</em> e dos novos componentes de interface.
+      </p>
+      <p>
+        <span class="bold">Catálogo de efeitos.</span> O <em>endpoint</em> de catálogo expõe <span class="bold">17
+        efeitos</span> efetivamente disponíveis no <em>build</em> do FFmpeg utilizado, organizados em Filtros, EQ,
+        Dinâmica e Realce. A detecção automática de filtros revelou e tratou a <span class="bold">ausência</span> de
+        dois filtros (<em>aexciter</em> e <em>asubboost</em>) nesse <em>build</em>, que foram corretamente omitidos
+        do catálogo em vez de gerar comandos inválidos.
+      </p>
+      <p>
+        <span class="bold">Discussão de trade-offs.</span> Dois pontos técnicos merecem destaque. Primeiro, o filtro
+        <em>amix</em> da versão de FFmpeg embutida não suporta a opção <em>normalize</em>; para preservar os ganhos
+        por faixa na soma, aplicou-se uma compensação de volume proporcional ao número de faixas, com o limitador do
+        master protegendo contra picos. Segundo, alguns efeitos (como <em>loudnorm</em>, <em>dynaudnorm</em> e
+        <em>firequalizer</em>) não possuem equivalente exato em tempo real no navegador; por isso, recebem o rótulo
+        de <span class="bold">“apenas renderização”</span> na interface, deixando claro ao usuário que o resultado
+        fiel virá do arquivo exportado, enquanto os filtros de EQ, ganho e dinâmica oferecem <span class="bold">preview
+        ao vivo</span>.
+      </p>
+      <p>
+        <span class="bold">Segurança e arquitetura.</span> A camada de autenticação passou a operar com sessão JWT
+        gerenciada e RLS no banco, mantendo a <em>service-role key</em> restrita ao servidor e expondo apenas a
+        <em>anon key</em> no cliente. A reorganização em MVC tornou o código mais legível e preparado para crescer,
+        com responsabilidades isoladas por camada.
+      </p>
+
+      <h2>5 CONSIDERAÇÕES FINAIS</h2>
+      <p>
+        O objetivo da etapa foi alcançado. O SoundCon evoluiu de um conversor de áudio para uma plataforma web com
+        autenticação em nuvem, banco PostgreSQL com regras de acesso, conversão de maior qualidade e uma estação de
+        mixagem multitrack que combina preview em tempo real (Web Audio) com renderização fiel (FFmpeg), tudo sobre
+        um backend reorganizado em arquitetura MVC e com cobertura de testes.
+      </p>
+      <p>
+        Do ponto de vista formativo, a atividade exercitou de maneira integrada diversos conhecimentos do curso:
+        engenharia de software incremental e arquitetura em camadas; segurança e autenticação de aplicações;
+        processamento digital de sinais e a Web Audio API; e, sobretudo, a aplicação prática de
+        <span class="bold">estruturas de dados</span> (buffers circulares, pilhas, <em>typed arrays</em>) e técnicas
+        de otimização para que o serviço funcione bem mesmo em computadores modestos — premissa central do caráter
+        extensionista do projeto, que busca acessibilidade de uso.
+      </p>
+      <p>
+        Como continuidade, recomenda-se: a virtualização das faixas na DAW para cenários com muitas trilhas; a
+        renderização da mixagem de forma assíncrona, com progresso e cancelamento; a divisão do <em>bundle</em>
+        (carregamento sob demanda da DAW e do Supabase); a adoção de testes automatizados de acessibilidade no
+        processo de integração contínua; e a ativação final do ambiente Supabase em produção, com a configuração das
+        chaves e a execução do <em>script</em> de banco.
+      </p>
+
+      <h2>6 REFERÊNCIAS</h2>
+      <div class="noindent" style="text-align:left">
+        <p>FFMPEG. <span class="bold">FFmpeg Filters Documentation</span>. Disponível em: https://ffmpeg.org/ffmpeg-filters.html. Acesso em: 9 jun. 2026.</p>
+        <p>FFMPEG. <span class="bold">FFmpeg Resampler Documentation</span>. Disponível em: https://ffmpeg.org/ffmpeg-resampler.html. Acesso em: 9 jun. 2026.</p>
+        <p>SUPABASE. <span class="bold">Supabase Documentation</span>: Auth and Row Level Security. Disponível em: https://supabase.com/docs. Acesso em: 9 jun. 2026.</p>
+        <p>MOZILLA. <span class="bold">Web Audio API — MDN Web Docs</span>. Disponível em: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API. Acesso em: 9 jun. 2026.</p>
+        <p>META (REACT). <span class="bold">React Documentation</span>. Disponível em: https://react.dev. Acesso em: 9 jun. 2026.</p>
+        <p>VITE. <span class="bold">Vite Documentation</span>. Disponível em: https://vitejs.dev. Acesso em: 9 jun. 2026.</p>
+        <p>INSTITUTO FEDERAL DO PARANÁ. <span class="bold">Normas para apresentação de trabalhos acadêmicos do IFPR</span>. Disponível em: http://reitoria.ifpr.edu.br/wp-content/uploads/2010/05/normas_ifpr_completa_alta_impressao.pdf. Acesso em: 9 jun. 2026.</p>
+      </div>
+    </section>
+  </body>
+</html>

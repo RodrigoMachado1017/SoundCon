@@ -1,30 +1,27 @@
-import { useNavigate } from "react-router-dom";
-import "./home.css"; 
-import logo from "../assets/favcon.png";
+﻿import { useNavigate } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
+import { useAuth } from "../auth/AuthProvider";
 
 export default function Home() {
   const nav = useNavigate();
+  const { displayName } = useAuth();
+  const userName = displayName;
 
   return (
-    <div className="home-container">
-      <div className="glass-card text-center">
-        <h1 className="hero-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-          <span>Bem-vindo ao <span className="highlight">SoundCON</span></span>
-          <img src={logo} alt="SoundCON Logo" style={{ height: '3.5rem', filter: 'drop-shadow(0 0 10px rgba(155, 81, 224, 0.3))' }} />
-        </h1>
-        <p className="hero-subtitle">
-          Aqui você pode converter e processar seus áudios de forma rápida e elegante!
+    <AppLayout
+      title="Welcome"
+      subtitle="Área principal do SoundCon para conversão e mudança de pitch"
+    >
+      <section className="sc-welcome-card">
+        <h2>Bem-vindo de volta, {userName}!</h2>
+        <p>
+          Seu ambiente está pronto. Escolha abaixo a função que deseja usar agora.
         </p>
-        
-        <div className="button-group">
-          <button className="btn-primary" onClick={() => nav("./login")}>
-            Entrar
-          </button>
-          <button className="btn-secondary" onClick={() => nav("./cadastro")}>
-            Cadastrar
-          </button>
+        <div className="sc-welcome-actions">
+          <button className="sc-btn-primary" onClick={() => nav("/convert")}>Ir para Conversão</button>
+          <button className="sc-btn-ghost" onClick={() => nav("/pitch")}>Ir para Pitch</button>
         </div>
-      </div>
-    </div>
+      </section>
+    </AppLayout>
   );
 }

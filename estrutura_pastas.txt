@@ -1,0 +1,9 @@
+SoundCon
+|-- backend
+    |-- db
+    |-- output
+    |-- uploads
+|-- frontend
+    |-- src
+        |-- assets
+        |-- pages

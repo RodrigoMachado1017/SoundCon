@@ -1,0 +1,9 @@
+{
+  "name": "soundcon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SoundCon — orquestrador de desenvolvimento (backend + frontend).",
+  "scripts": {
+    "dev": "node dev.js"
+  }
+}
